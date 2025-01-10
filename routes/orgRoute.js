@@ -1,0 +1,12 @@
+const express = require("express");
+const router = express.Router();
+const { authMiddleware } = require("../middlewares/authMiddleware");
+const { getOrganisations } = require("../Controllers/orgauth");
+const { getsingleOrganisation } = require("../Controllers/orgauth");
+const { addUserToOrganisation } = require("../Controllers/orgauth");
+const { createOrganisation } = require("../Controllers/orgauth");
+router.get("/organisations", authMiddleware, getOrganisations);
+router.get("/organisations/:orgId", authMiddleware, getsingleOrganisation);
+router.post("/organisations/:orgId/users", addUserToOrganisation);
+router.post("/organisations", authMiddleware, createOrganisation);
+module.exports = router;
