@@ -3,7 +3,6 @@ User Authentication & Organisation
 This project implements a user authentication system with organisation management. It includes
 user registration, login, and managing user and organisation data.
 ## Technologies Used
-
 - **Node.js**: JavaScript runtime to build the backend.
 - **Express**: Web framework for building the RESTful API.
 - **MySQL**: Relational database used to store user and organisation data.
