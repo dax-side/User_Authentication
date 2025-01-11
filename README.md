@@ -64,4 +64,4 @@ Test for:
 - **Missing Fields**: Test missing required fields.
 - **Duplicate Email/UserID**: Test duplicate registration.
 ### Directory Structure
-Tests should be in the tests/ folder (e.g., tests/auth.spec.ts for TypeScript).
+Tests should be in the tests/ folder (e.g., tests/auth.spec.ts for TypeScript ).
