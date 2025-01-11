@@ -10,6 +10,98 @@ user registration, login, and managing user and organisation data.
 - **Bcrypt.js**: For password hashing.
 - **Jest & Supertest**: For unit and integration testing.
 - **Sequelize (optional)**: ORM for managing the MySQL database (if used).
+## API Endpoints
+
+### 1. **Login to the Database**
+**POST** `/auth/login`  
+Content-Type: `application/json`
+
+#### Request Body:
+```json
+{
+    "email": "njohn.doe@example.com",
+    "password": "$2a$12$rwQtaoimRlcBMJu1OFYJV.C7wHDnKRJwZvOGRngJ5I1w7AEiYqZd."
+}
+```
+
+### 2. **Get User**
+**GET** `/auth/user/{userId}`  
+Content-Type: `application/json`  
+Authorization: Bearer `<JWT_TOKEN>`
+
+### 3. **Get All Organisations**
+**GET** `/api/organisations`  
+Content-Type: `application/json`  
+Authorization: Bearer `<JWT_TOKEN>`
+
+### 4. **Create Organisation**
+**POST** `/api/organisations`  
+Content-Type: `application/json`  
+Authorization: Bearer `<JWT_TOKEN>`
+
+#### Request Body:
+```json
+{
+    "name": "My Organisation",
+    "description": "This is my new organisation"
+}
+```
+
+### 5. **Add User to Organisation**
+**POST** `/api/organisations/{orgId}/users`  
+Content-Type: `application/json`  
+Authorization: Bearer `<JWT_TOKEN>`
+
+#### Request Body:
+```json
+{
+    "userId": "3"
+}
+```
+
+### 6. **Get Single Organisation**
+**GET** `/api/organisations/{orgId}`  
+Content-Type: `application/json`  
+Authorization: Bearer `<JWT_TOKEN>`
+
+### 7. **Register User**
+**POST** `/auth/register`  
+Content-Type: `application/json`
+
+#### Request Body:
+```json
+{
+    "firstName": "nJohn",
+    "lastName": "nDoe",
+    "email": "njohn.doe@example.com",
+    "password": "NSecurePassword123",
+    "phone": "21234567890"
+}
+```
+
+Additional User Examples:
+
+```json
+{
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@example.com",
+    "password": "password@456",
+    "phone": "9876543210"
+}
+```
+
+```json
+{
+    "firstName": "Samuel",
+    "lastName": "Adams",
+    "email": "sam.adams@example.com",
+    "password": "SamStrog789",
+    "phone": "5647382910"
+}
+```
+
+
 ## Acceptance Criteria
 ### Database and Models
 - **Database**: Connect to a Postgres or MySQL database server (use any ORM if preferred).
