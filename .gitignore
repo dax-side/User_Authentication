@@ -4,6 +4,9 @@ node_modules/
 # Config files (if you want to ignore specific config files or directories)
 config/config.json
 
+# Ignore config.json
+config.json
+
 # Environment variables
 .env
 
