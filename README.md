@@ -13,7 +13,7 @@ user registration, login, and managing user and organisation data.
 - **Sequelize (optional)**: ORM for managing the MySQL database (if used).
 ## Acceptance Criteria
 ### Database and Models
-- **Database**: Connect to a Postgres database server (use any ORM if preferred).
+- **Database**: Connect to a Postgres or MySQL database server (use any ORM if preferred).
 - **User Model**: Include properties:
  - `userId` (unique)
  - `firstName` (required)
