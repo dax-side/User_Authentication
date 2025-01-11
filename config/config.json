@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": process.env.DB_PASSWORD,,
+    "password": process.env.DB_PASSWORD,
     "database": "user_authentication",
     "host": "localhost",
     "dialect": "mysql"
