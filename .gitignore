@@ -1,0 +1,26 @@
+# Node modules
+node_modules/
+
+# Config files (if you want to ignore specific config files or directories)
+config/config.json
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+
+# OS files (optional, depending on your OS)
+.DS_Store
+
+# IDE/Editor specific files (if you're using an IDE)
+.vscode/
+.idea/
+
+# Optional: Ignore compiled files
+/dist/
+/build/
+
+# Optional: Ignore npm-debug files
+npm-debug.log*
