@@ -2,6 +2,15 @@ User Authentication & Organisation
 ## Overview
 This project implements a user authentication system with organisation management. It includes
 user registration, login, and managing user and organisation data.
+## Technologies Used
+
+- **Node.js**: JavaScript runtime to build the backend.
+- **Express**: Web framework for building the RESTful API.
+- **MySQL**: Relational database used to store user and organisation data.
+- **JWT (JSON Web Tokens)**: For secure user authentication and authorization.
+- **Bcrypt.js**: For password hashing.
+- **Jest & Supertest**: For unit and integration testing.
+- **Sequelize (optional)**: ORM for managing the MySQL database (if used).
 ## Acceptance Criteria
 ### Database and Models
 - **Database**: Connect to a Postgres database server (use any ORM if preferred).
