@@ -8,21 +8,26 @@ const { User } = require("../models/user_auth");
 const { Organisation } = require("../models/Organisation");
 const { user_Org } = require("../models/user_org");
 const { authMiddleware } = require("../middlewares/authMiddleware");
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 exports.register = async (req, res, next) => {
   const { firstName, lastName, email, password, phone } = req.body;
   console.log("Received body: ", req.body);
 
-  if (!firstName || !lastName || !email || !password || !phone) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-  try {
-    const existingUser = await User.findOne({
-      where: { email },
-    });
-    if (existingUser) {
+   if (existingUser) {
       return res.status(409).json({
         message: "Email already exists",
+      });
+    } else if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        error: "Invalid email format",
+      });
+    } else if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        error:
+          "Password must be at least 8 characters long and include uppercase, lowercase, a digit, and a special character",
       });
     }
     const user = await User.create({
