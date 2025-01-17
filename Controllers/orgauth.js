@@ -98,8 +98,8 @@ exports.getsingleOrganisation = async (req, res) => {
  */
 exports.addUserToOrganisation = async (req, res) => {
   try {
+    // const {userId} = req.body
     const organisation = await Organisation.findByPk(req.params.orgId);
-
     if (!organisation) {
       return res.status(404).json({
         status: "fail",
@@ -107,7 +107,7 @@ exports.addUserToOrganisation = async (req, res) => {
       });
     }
     console.log("body user id", req.body.userId);
-    console.log("user id", req.user.id);
+    // console.log("user id", req.user);
     console.log("org id", req.params.orgId);
     const user = await User.findByPk(req.body.userId || req.user.id);
 
