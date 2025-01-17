@@ -19,20 +19,56 @@ Content-Type: `application/json`
 #### Request Body:
 ```json
 {
-    "email": "njohn.doe@example.com",
-    "password": "$2a$12$rwQtaoimRlcBMJu1OFYJV.C7wHDnKRJwZvOGRngJ5I1w7AEiYqZd."
+    "email":"jane.smith@example.com",
+    "password": "PASSword@456"
 }
 ```
+
+```json
+{
+  "status": "success",
+  "message": "login successful",
+  "user": {
+    "userId": 1,
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@example.com",
+    "password": "$2a$12$ACEOiSzGpYGF3vIEzrHLZOwjlb0rCuuvBKudX9zfX1ZxbjGkIdzDi",
+    "phone": "9876543210"
+  },
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqYW5lLnNtaXRoQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3MDcwNDE4LCJleHAiOjE3MzcwNzQwMTh9.PAgzMK0awh8MQmrvx3xVeK5hfVicRSOqLVv_LHrC2ok"
+  }
+}
+```
+
 
 ### 2. **Get User**
 **GET** `/auth/user/{userId}`  
 Content-Type: `application/json`  
 Authorization: Bearer `<JWT_TOKEN>`
+```json
+{
+  "status": "success",
+  "message": "User record retrieved",
+  "data": {
+    "userId": 2,
+    "firstName": "Samuel",
+    "lastName": "Adams",
+    "email": "sam.adams@example.com",
+    "phone": "5647382910"
+  }
+}
+```
 
 ### 3. **Get All Organisations**
 **GET** `/api/organisations`  
 Content-Type: `application/json`  
 Authorization: Bearer `<JWT_TOKEN>`
+
+```json
+
+```
 
 ### 4. **Create Organisation**
 **POST** `/api/organisations`  
@@ -58,11 +94,26 @@ Authorization: Bearer `<JWT_TOKEN>`
     "userId": "3"
 }
 ```
+```json
+
+```
 
 ### 6. **Get Single Organisation**
 **GET** `/api/organisations/{orgId}`  
 Content-Type: `application/json`  
 Authorization: Bearer `<JWT_TOKEN>`
+
+```json
+{
+  "status": "success",
+  "message": "Organisation retrieved successfully",
+  "data": {
+    "orgId": 1,
+    "name": "Jane's organisation",
+    "description": "Jane's personal organisation"
+  }
+}
+```
 
 ### 7. **Register User**
 **POST** `/auth/register`  
