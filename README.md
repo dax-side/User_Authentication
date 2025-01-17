@@ -47,6 +47,7 @@ Content-Type: `application/json`
 **GET** `/auth/user/{userId}`  
 Content-Type: `application/json`  
 Authorization: Bearer `<JWT_TOKEN>`
+
 ```json
 {
   "status": "success",
@@ -67,7 +68,38 @@ Content-Type: `application/json`
 Authorization: Bearer `<JWT_TOKEN>`
 
 ```json
-
+{
+  "status": "success",
+  "message": "Organisations retrieved successfully",
+  "data": {
+    "organisations": [
+      {
+        "orgId": 2,
+        "name": "Samuel's organisation",
+        "description": "Samuel's personal organisation",
+        "auth_users": [
+          {
+            "userId": 2,
+            "firstName": "Samuel",
+            "email": "sam.adams@example.com"
+          }
+        ]
+      },
+      {
+        "orgId": 4,
+        "name": "New Organisation",
+        "description": "This is my new organisation",
+        "auth_users": [
+          {
+            "userId": 2,
+            "firstName": "Samuel",
+            "email": "sam.adams@example.com"
+          }
+        ]
+      }
+    ]
+  }
+}
 ```
 
 ### 4. **Create Organisation**
@@ -83,6 +115,18 @@ Authorization: Bearer `<JWT_TOKEN>`
 }
 ```
 
+```json
+{
+  "status": "success",
+  "message": "Organisation created successfully",
+  "data": {
+    "orgId": 4,
+    "name": "New Organisation",
+    "description": "This is my new organisation"
+  }
+}
+```
+
 ### 5. **Add User to Organisation**
 **POST** `/api/organisations/{orgId}/users`  
 Content-Type: `application/json`  
@@ -94,8 +138,12 @@ Authorization: Bearer `<JWT_TOKEN>`
     "userId": "3"
 }
 ```
-```json
 
+```json
+{
+  "status": "success",
+  "message": "User added to Organisation successfully"
+}
 ```
 
 ### 6. **Get Single Organisation**
