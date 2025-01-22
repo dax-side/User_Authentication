@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start":"node app.js",
-    "build":"npm install"
+    "build":"npm install",
     "test": "jest"
   },
   "jest": {
