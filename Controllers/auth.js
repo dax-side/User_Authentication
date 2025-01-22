@@ -1,35 +1,46 @@
 require("dotenv").config();
 const express = require("express");
-const app = express();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 const { User } = require("../models/user_auth");
 const { Organisation } = require("../models/Organisation");
 const { user_Org } = require("../models/user_org");
-const { authMiddleware } = require("../middlewares/authMiddleware");
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-exports.register = async (req, res, next) => {
+// Registration Function
+exports.register = async (req, res) => {
   const { firstName, lastName, email, password, phone } = req.body;
   console.log("Received body: ", req.body);
 
-   if (existingUser) {
-      return res.status(409).json({
-        message: "Email already exists",
-      });
-    } else if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        error: "Invalid email format",
-      });
-    } else if (!passwordRegex.test(password)) {
+  // Input validation
+  if (!firstName || !lastName || !email || !password || !phone) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    // Check for existing email
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already exists" });
+    }
+
+    // Validate email format
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+
+    // Validate password format
+    if (!passwordRegex.test(password)) {
       return res.status(400).json({
         error:
           "Password must be at least 8 characters long and include uppercase, lowercase, a digit, and a special character",
       });
     }
+
+    // Create new user
     const user = await User.create({
       firstName,
       lastName,
@@ -38,18 +49,25 @@ exports.register = async (req, res, next) => {
       phone,
     });
 
+    // Create a new organization for the user
     const org = await Organisation.create({
       name: `${firstName}'s organisation`,
       description: `${firstName}'s personal organisation`,
     });
+
+    // Link user and organisation
     await user_Org.create({
       userId: user.userId,
       orgId: org.orgId,
     });
-    const tken = { id: user.userId, email: user.email };
-    const accessToken = jwt.sign(tken, process.env.ACCESS_TOKEN_SECRET, {
+
+    // Generate JWT
+    const token = { id: user.userId, email: user.email };
+    const accessToken = jwt.sign(token, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "1h",
     });
+
+    // Return success response with token
     return res.status(201).json({
       status: "success",
       message: "Registration Successful",
@@ -65,103 +83,97 @@ exports.register = async (req, res, next) => {
       },
     });
   } catch (err) {
-    res.status(500).json({
+    console.error(err);
+    return res.status(500).json({
       message: "Registration Unsuccessful",
       error: err.message,
     });
   }
 };
 
-/**
- *  Login Function
- */
+// Login Function
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
 
-exports.login = async (req, res, next) => {
+  // Validate input
+  if (!email || !password) {
+    return res.status(422).json({
+      errors: [
+        { message: "Email is required" },
+        { message: "Password is required" },
+      ],
+    });
+  }
+
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(422).json({
-        errors: [
-          {
-            message: "email",
-            message: "Email is required",
-          },
-          {
-            message: "password",
-            message: "password is required",
-          },
-        ],
-      });
-    }
+    // Find user by email
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      res.status(401).json({
+      return res.status(401).json({
         status: "error",
-        message: "login unsuccessful. Email not found",
+        message: "Login unsuccessful. Email not found",
       });
     }
+
+    // Check if password is valid
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({
         status: "error",
-        message: "login unsuccessful. Password incorrect",
+        message: "Login unsuccessful. Password incorrect",
       });
     }
-    const tken = { id: user.userId, email: user.email };
-    //Check if input are working
 
-    // console.log("userId", user.userId);
-    // console.log("Token", user.email);
-
-    const accessToken = jwt.sign(tken, process.env.ACCESS_TOKEN_SECRET, {
+    // Generate JWT
+    const token = { id: user.userId, email: user.email };
+    const accessToken = jwt.sign(token, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "1h",
     });
-    console.log("Generated token Payload", tken);
 
+    // Return success response with token
     return res.status(200).json({
       status: "success",
-      message: "login successful",
-      user,
-      data: {
-        accessToken,
-      },
+      message: "Login successful",
+      data: { accessToken },
     });
-  } catch (error) {
-    return res.status(400).json({
-      message: "An error occured",
-      error: error.message,
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "An error occurred during login",
+      error: err.message,
     });
   }
 };
 
-/**
- * GetUser
- */
-
+// Get User Function
 exports.getUser = async (req, res) => {
   try {
-    console.log("Token user id " + req.user.id);
-    console.log("Request Param Id " + req.params.id);
     const userIdTk = String(req.user.id);
     const userId = req.params.id;
+
+    // Check if user is authorized to access the requested data
     if (userIdTk !== userId) {
       return res.status(403).json({
         status: "Forbidden",
         message: "You are not allowed to access this user's data",
       });
     }
+
+    // Fetch user from database
     const user = await User.findOne({
       where: { userId: userId },
       include: Organisation,
     });
+
     if (!user) {
       return res.status(404).json({
         status: "Not found",
         message: "User not found",
-        statusCode: 404,
       });
     }
-    res.status(200).json({
+
+    // Return user data
+    return res.status(200).json({
       status: "success",
       message: "User record retrieved",
       data: {
@@ -173,11 +185,10 @@ exports.getUser = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
+    console.error(error);
+    return res.status(500).json({
       status: "Error",
-      message: "An error occured",
-      statusCode: 500,
+      message: "An error occurred",
     });
   }
 };
