@@ -7,7 +7,13 @@ module.exports = {
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
-    ssl:true,
+    dialectOptions:
+    {ssl: {
+      require: true,
+      rejectUnauthorized: false  // Allow SSL connections
+    }
+  },
+  logging: false,  // Disable logging for production
   },
   test: {
     username: process.env.DB_USERNAME,
