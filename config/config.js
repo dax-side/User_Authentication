@@ -15,7 +15,7 @@ module.exports = {
       ssl: {
         require: true,
         rejectUnauthorized: true, // Set this to `true` if your certificate is valid and authorized
-        ca: fs.readFileSync(path.resolve(__dirname, 'path_to_certificate.pem'))
+        ca: fs.readFileSync(path.resolve(__dirname, 'ca.pem'))
       },
     },
     logging: false,
