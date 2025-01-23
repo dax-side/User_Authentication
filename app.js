@@ -23,11 +23,13 @@ if (process.env.NODE_ENV !== "test") {
   sequelize
     .sync({ alter: true })
     .then(() => {
-      const port = process.env.PORT || 3000; // Fallback to 3000 if not set
-      console.log(`Using port: ${port}`); // Log to verify the actual port being used
+      const port = 10000; // Use a hardcoded port for now to test
+console.log(`Using port: ${port}`); // Log to verify the port
 
-      app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
       });
     })
     .catch((err) => console.error("Database connection failed: ", err));
