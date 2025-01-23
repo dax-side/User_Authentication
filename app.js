@@ -15,6 +15,7 @@ app.use((req, res, next) => {
 // Routes
 app.use("/auth", require("./routes/userRoutes"));
 app.use("/api", require("./routes/orgRoute"));
+console.log(process.env);
 if (process.env.NODE_ENV !== "test") {
   sequelize
     .sync({ alter: true })
