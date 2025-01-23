@@ -1,10 +1,12 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const { sequelize } = require("./config/db");
+const cors = require("cors");
 //Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 //
 app.use((req, res, next) => {
   console.log(`Request Method: ${req.method}`);
