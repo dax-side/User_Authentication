@@ -1,39 +1,43 @@
-require('dotenv').config(); // Load environment variables from .env
+require('dotenv').config();
 
 module.exports = {
   development: {
-    username: process.env.DB_USERNAME || 'root',
-    password: process.env.DB_PASSWORD || null,
-    database: process.env.DB_DATABASE || 'development_db',
-    host: process.env.DB_HOST || '127.0.0.1',
-    port: process.env.DB_PORT || 3306, // Use DB_PORT here
-    dialect: process.env.DB_DIALECT || 'mysql', // Default to 'mysql'
-    logging: false, // Disable logging for development
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT || 'mysql',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // Allow self-signed certificates
+      },
+    },
+    logging: false,
   },
   test: {
-    username: process.env.DB_USERNAME || 'root',
-    password: process.env.DB_PASSWORD || null,
-    database: process.env.DB_DATABASE_TEST || 'test_db', // Use a separate test DB
-    host: process.env.DB_HOST || '127.0.0.1',
-    port: process.env.DB_PORT || 3306,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE_TEST,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     dialect: process.env.DB_DIALECT || 'mysql',
     logging: false,
   },
   production: {
-    username: process.env.DB_USERNAME || 'root',
-    password: process.env.DB_PASSWORD || null,
-    database: process.env.DB_DATABASE || 'production_db',
-    host: process.env.DB_HOST || '127.0.0.1',
-    port: process.env.DB_PORT || 3306,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     dialect: process.env.DB_DIALECT || 'mysql',
     dialectOptions: {
-      ssl: process.env.DB_SSL === 'true'
-        ? {
-            require: true,
-            rejectUnauthorized: false, // Allow SSL connections for production
-          }
-        : false,
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
     },
-    logging: false, // Disable logging in production
+    logging: false,
   },
 };
