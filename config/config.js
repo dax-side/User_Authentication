@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 require('dotenv').config();
 
 module.exports = {
@@ -11,7 +14,8 @@ module.exports = {
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false, // Set this to `true` if your certificate is valid and authorized
+        rejectUnauthorized: true, // Set this to `true` if your certificate is valid and authorized
+        ca: fs.readFileSync(path.resolve(__dirname, 'path_to_certificate.pem'))
       },
     },
     logging: false,
