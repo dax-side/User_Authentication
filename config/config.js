@@ -6,12 +6,12 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    port: process.env.DB_PORT || 3306, // Default MySQL port
     dialect: process.env.DB_DIALECT || 'mysql',
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false, // Allow self-signed certificates
+        rejectUnauthorized: false, // Set this to `true` if your certificate is valid and authorized
       },
     },
     logging: false,
@@ -30,7 +30,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    port: process.env.DB_PORT || 3306,
     dialect: process.env.DB_DIALECT || 'mysql',
     dialectOptions: {
       ssl: {
