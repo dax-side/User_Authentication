@@ -23,7 +23,7 @@ if (process.env.NODE_ENV !== "test") {
   sequelize
     .sync({ alter: true })
     .then(() => {
-      const port = 10000; // Use a hardcoded port for now to test
+      const port = process.env.PORT || 3000; // Use the environment variable PORT if available, otherwise fallback to 3000
       console.log(`Using port: ${port}`); // Log to verify the port
 
       app.listen(port, () => {
