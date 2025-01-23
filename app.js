@@ -24,12 +24,10 @@ if (process.env.NODE_ENV !== "test") {
     .sync({ alter: true })
     .then(() => {
       const port = 10000; // Use a hardcoded port for now to test
-console.log(`Using port: ${port}`); // Log to verify the port
+      console.log(`Using port: ${port}`); // Log to verify the port
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-
+      app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
       });
     })
     .catch((err) => console.error("Database connection failed: ", err));
