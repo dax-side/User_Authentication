@@ -36,16 +36,16 @@ if (process.env.NODE_ENV !== "test") {
     .catch((err) => console.error("Database connection failed: ", err));
 
   // Cron job to trigger redeployment
-  // const deployHookUrl =
-  //   "https://api.render.com/deploy/srv-cu8mj2lds78s73bjcar0?key=KWA0m4_WTGk";
-  // cron.schedule("*/14 * * * *", async () => {
-  //   try {
-  //     const response = await axios.post(deployHookUrl);
-  //     console.log("Deployment triggered", response.data);
-  //   } catch (error) {
-  //     console.error("Error triggering deployment", error);
-  //   }
-  // });
+  const deployHookUrl =
+    "https://api.render.com/deploy/srv-cu8mj2lds78s73bjcar0?key=KWA0m4_WTGk";
+  cron.schedule("*/14 * * * *", async () => {
+    try {
+      const response = await axios.post(deployHookUrl);
+      console.log("Deployment triggered", response.data);
+    } catch (error) {
+      console.error("Error triggering deployment", error);
+    }
+  });
 
   // Handle unhandled rejection
   process.on("unhandledRejection", (err) => {
