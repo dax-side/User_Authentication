@@ -38,7 +38,7 @@ if (process.env.NODE_ENV !== "test") {
   const deployHookUrl =
     "https://api.render.com/deploy/srv-cu8mj2lds78s73bjcar0?key=KWA0m4_WTGk";
   
-  cron.schedule("* * * * *", async () => {
+  cron.schedule("*/14 * * * *", async () => {
     try {
       const response = await axios.post(deployHookUrl);
       console.log("Deployment triggered", response.data);
