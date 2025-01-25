@@ -1,5 +1,7 @@
 require("dotenv").config();
 const express = require("express");
+const axios = require("axios");
+const cron = require("node-cron");
 const app = express();
 const { sequelize } = require("./config/db");
 const cors = require("cors");
@@ -28,6 +30,16 @@ if (process.env.NODE_ENV !== "test") {
       });
     })
     .catch((err) => console.error("Dabase connection failed: ", err));
+  // Cron job to trigger redeployment
+  const deployHookUrl =
+    "https://api.render.com/deploy/srv-cu8mj2lds78s73bjcar0?key=KWA0m4_WTGk";
+  cron.schedule("* * * * *", async () => {
+    try {
+      const response = await axios.post(deployHookUrl);
+      console.log("Deployment triggered", response.data);
+    } catch (error) {
+      console.err("Error triggering deployment", error);
+    }
   process.on("unhandledRejection", (err) => {
     console.log(`An error occured: ${err.message}`);
   });
