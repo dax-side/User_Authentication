@@ -21,6 +21,7 @@ app.use((req, res, next) => {
 // Routes
 app.use("/auth", require("./routes/userRoutes"));
 app.use("/api", require("./routes/orgRoute"));
+
 console.log(process.env);
 
 if (process.env.NODE_ENV !== "test") {
@@ -35,9 +36,8 @@ if (process.env.NODE_ENV !== "test") {
     .catch((err) => console.error("Database connection failed: ", err));
 
   // Cron job to trigger redeployment
-  const deployHookUrl =
-    "https://api.render.com/deploy/srv-cu8mj2lds78s73bjcar0?key=KWA0m4_WTGk";
-  
+  // const deployHookUrl =
+  //   "https://api.render.com/deploy/srv-cu8mj2lds78s73bjcar0?key=KWA0m4_WTGk";
   // cron.schedule("*/14 * * * *", async () => {
   //   try {
   //     const response = await axios.post(deployHookUrl);
@@ -45,8 +45,9 @@ if (process.env.NODE_ENV !== "test") {
   //   } catch (error) {
   //     console.error("Error triggering deployment", error);
   //   }
-  });
+  // });
 
+  // Handle unhandled rejection
   process.on("unhandledRejection", (err) => {
     console.log(`An error occurred: ${err.message}`);
   });
